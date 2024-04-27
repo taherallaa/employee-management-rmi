@@ -2,9 +2,11 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import java.rmi.RemoteException;
@@ -102,12 +104,14 @@ public class EmployeeImp extends UnicastRemoteObject implements Employee {
     @Override
     public String deleteEmployee(String employeeID) throws RemoteException {
         MongoCollection<Document> collection = getCollection();
-        Document filter =  new Document("_id", employeeID);
-        DeleteResult deleteResult = collection.deleteOne(filter);
-        if (deleteResult.getDeletedCount() == 1L) {
-            return "Employee with this id was deleted "+ employeeID;
-        }else{
-            return "Employee with this id was not deleted";
+        Bson filter = Filters.eq("_id", employeeID);
+        Document deleteResult = collection.findOneAndDelete(filter);
+        System.out.println(deleteResult);
+
+        if (deleteResult != null) {
+            return "Employee with ID " + employeeID + " was deleted.";
+        } else {
+            return "Employee with ID " + employeeID + " was not found or not deleted.";
         }
     }
 
@@ -115,7 +119,9 @@ public class EmployeeImp extends UnicastRemoteObject implements Employee {
     public String deleteEmployees() throws RemoteException {
         MongoCollection<Document> collection = getCollection();
         DeleteResult deleteResult = collection.deleteMany(new Document());
-        return "All employees is deleted successfully";
+        long deletedCount = deleteResult.getDeletedCount();
+
+        return "All employees " + (deletedCount > 0 ? "were deleted successfully" : " were not deleted");
     }
 
     @Override

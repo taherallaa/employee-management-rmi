@@ -47,9 +47,9 @@ public class Main {
                     case 1:
                         List<Document> empolyess = stub.getEmployees();
 
-                        if(empolyess.isEmpty()){
+                        if (empolyess.isEmpty()) {
                             System.out.println("There no empolyees");
-                        }else{
+                        } else {
                             System.out.println(empolyess);
                         }
                         break;
@@ -110,7 +110,7 @@ public class Main {
 
     }
 
-    public static void update_menu(){
+    public static void update_menu() throws MalformedURLException {
         char letter;
         do {
             System.out.println("\nChoose from (1 to 5) what you want to do?");
@@ -143,7 +143,7 @@ public class Main {
         } while (letter == 'Y' || letter == 'y');
     }
 
-    private static void updateDepartment() {
+    private static void updateDepartment() throws MalformedURLException {
         System.out.println("Enter employee ID, and new department for this employee ");
         String employeeID = scanner.next();
         String department = scanner.next();
@@ -151,9 +151,9 @@ public class Main {
         Employee stub;
         try {
             stub = getStub();
-            System.out.println( stub.updateEmployeeDepartment(employeeID, department));
-        } catch (MalformedURLException | RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println(stub.updateEmployeeDepartment(employeeID, department));
+        } catch (RemoteException e) {
+            System.out.println(e.getMessage());
         }
 
     }
@@ -166,10 +166,9 @@ public class Main {
         Employee stub;
         try {
             stub = getStub();
-            System.out.println( stub.updateEmployeeDepartment(employeeID, email));
-        } catch (MalformedURLException | RemoteException e) {
+            System.out.println(stub.updateEmployeeDepartment(employeeID, email));
+        } catch ( MalformedURLException | RemoteException e) {
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
         }
     }
 
@@ -181,11 +180,10 @@ public class Main {
         Employee stub;
         try {
             stub = getStub();
-            System.out.println( stub.updateEmployeeSalary(employeeID, salary));
-        } catch (MalformedURLException | RemoteException e) {
+            System.out.println(stub.updateEmployeeSalary(employeeID, salary));
+        } catch ( MalformedURLException | RemoteException e) {
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
         }
     }
 }
-// 662d58c2d5589e510c29bb9a
+//662d58c2d5589e510c29bb9a
