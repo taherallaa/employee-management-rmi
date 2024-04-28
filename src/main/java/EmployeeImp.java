@@ -14,6 +14,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mongodb.client.model.Filters.eq;
+
 public class EmployeeImp extends UnicastRemoteObject implements Employee {
     private static final String MONGO_URI = "mongodb://localhost:27017"; // Replace with your connection URI
     private static final String DATABASE_NAME = "mydatabase"; // Replace with your database name
@@ -71,7 +73,7 @@ public class EmployeeImp extends UnicastRemoteObject implements Employee {
         }
 
         Document filter = new Document("_id", new ObjectId(employeeID));
-        Document update = new Document("$set", new Document("department", Double.parseDouble(department)));
+        Document update = new Document("$set", new Document("department", department));
         Document updatedDocument = collection.findOneAndUpdate(filter, update);
 
         if (updatedDocument != null) {
@@ -91,7 +93,7 @@ public class EmployeeImp extends UnicastRemoteObject implements Employee {
         }
 
         Document filter = new Document("_id", new ObjectId(employeeID));
-        Document update = new Document("$set", new Document("email", Double.parseDouble(email)));
+        Document update = new Document("$set", new Document("email", email));
         Document updatedDocument = collection.findOneAndUpdate(filter, update);
 
         if (updatedDocument != null) {
@@ -104,11 +106,12 @@ public class EmployeeImp extends UnicastRemoteObject implements Employee {
     @Override
     public String deleteEmployee(String employeeID) throws RemoteException {
         MongoCollection<Document> collection = getCollection();
-        Bson filter = Filters.eq("_id", employeeID);
-        Document deleteResult = collection.findOneAndDelete(filter);
+        Bson query = Filters.eq("_id", employeeID);
+        DeleteResult deleteResult = collection.deleteOne(query);
+
         System.out.println(deleteResult);
 
-        if (deleteResult != null) {
+        if (deleteResult.getDeletedCount() == 1) {
             return "Employee with ID " + employeeID + " was deleted.";
         } else {
             return "Employee with ID " + employeeID + " was not found or not deleted.";

@@ -166,7 +166,7 @@ public class Main {
         Employee stub;
         try {
             stub = getStub();
-            System.out.println(stub.updateEmployeeDepartment(employeeID, email));
+            System.out.println(stub.updateEmployeeEmail(employeeID, email));
         } catch ( MalformedURLException | RemoteException e) {
             System.out.println(e.getMessage());
         }
