@@ -4,7 +4,9 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Scanner;
+
 import org.bson.Document;
+
 import java.rmi.Naming;
 
 
@@ -78,27 +80,24 @@ public class Main {
                     default:
                         System.out.println("Invalid option");
                 }
-                System.out.println("Do you want to do perform any task (Y,N)? ");
+                System.out.println("Do you want to perform any task else? (Y,N)");
                 letter = scanner.next().charAt(0);
-
             } while (letter == 'Y' || letter == 'y');
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
     }
 
-
     public static void deleteEmployee() throws MalformedURLException {
         System.out.println("Enter employee ID to remove it: ");
         String employeeID = scanner.next();
-
         Employee stub = getStub();
+
         try {
             System.out.println(stub.deleteEmployee(employeeID));
         } catch (RemoteException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     public static void addEmployee() throws MalformedURLException {
@@ -113,7 +112,6 @@ public class Main {
         } catch (RemoteException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     public static void update_menu() throws MalformedURLException {
@@ -192,4 +190,3 @@ public class Main {
         }
     }
 }
-//662d58c2d5589e510c29bb9a

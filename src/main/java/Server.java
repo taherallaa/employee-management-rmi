@@ -11,7 +11,7 @@ public class Server {
             LocateRegistry.createRegistry(1099);
             Employee stub = new EmployeeImp();
             Naming.rebind(bindName, stub);
-        } catch (RemoteException | MalformedURLException  e) {
+        } catch (RemoteException | MalformedURLException e) {
             System.out.println(e.getMessage());
        }
     }

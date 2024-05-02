@@ -4,10 +4,12 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -18,13 +20,13 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class EmployeeImp extends UnicastRemoteObject implements Employee {
     private static final String MONGO_URI = "mongodb://admin:pass@localhost:27017"; // Replace with your connection URI
-    private static final String DATABASE_NAME = "mydatabase"; // Replace with your database name
+    private static final String DATABASE_NAME = "test"; // Replace with your database name
     private static final String COLLECTION_NAME = "Employee"; // Replace with your collection name
     private final MongoClient mongoClient;
 
-    public EmployeeImp() throws RemoteException{
+    public EmployeeImp() throws RemoteException {
         super();
-        mongoClient= MongoClients.create(MONGO_URI);
+        mongoClient = MongoClients.create(MONGO_URI);
     }
 
     private MongoCollection<Document> getCollection() {
@@ -141,8 +143,8 @@ public class EmployeeImp extends UnicastRemoteObject implements Employee {
     public Document getEmployee(String employeeID) throws RemoteException {
         MongoCollection<Document> collection = getCollection();
         Document filter = new Document("_id", new ObjectId(employeeID));
-        Document document =  collection.find(filter).first();
-        if (document == null ){
+        Document document = collection.find(filter).first();
+        if (document == null) {
             document = new Document("message", "Employee not found");
             return document;
         }
