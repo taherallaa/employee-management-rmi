@@ -1,23 +1,23 @@
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
-import org.bson.Document;
-import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
+import com.mongodb.client.FindIterable;
+
 
 import static com.mongodb.client.model.Filters.eq;
 
 public class EmployeeImp extends UnicastRemoteObject implements Employee {
-    private static final String MONGO_URI = "mongodb://localhost:27017"; // Replace with your connection URI
+    private static final String MONGO_URI = "mongodb://admin:pass@localhost:27017"; // Replace with your connection URI
     private static final String DATABASE_NAME = "mydatabase"; // Replace with your database name
     private static final String COLLECTION_NAME = "Employee"; // Replace with your collection name
     private final MongoClient mongoClient;

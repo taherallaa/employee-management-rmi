@@ -1,11 +1,12 @@
-import org.bson.Document;
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Scanner;
+import org.bson.Document;
+import java.rmi.Naming;
+
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
@@ -28,7 +29,6 @@ public class Main {
             char letter;
 
             do {
-
                 System.out.println("\nChoose from (1 to 5) what you want to do?");
                 System.out.println(
                         """
@@ -39,7 +39,6 @@ public class Main {
                                 5) Remove Employee using ID.
                                 6) Remove All Employee.
                                 """
-
                 );
                 System.out.print("Enter your choice: ");
                 int choice = scanner.nextInt();
@@ -56,7 +55,13 @@ public class Main {
                     case 2:
                         System.out.println("Enter employee ID: ");
                         String employeeID = scanner.next();
-                        System.out.println(stub.getEmployee(employeeID));
+                        Document employee = stub.getEmployee(employeeID);
+
+                        if (employee.isEmpty()) {
+                            System.out.println("There no empolyee with " + employeeID);
+                        } else {
+                            System.out.println(employee);
+                        }
                         break;
                     case 3:
                         addEmployee();
@@ -73,7 +78,7 @@ public class Main {
                     default:
                         System.out.println("Invalid option");
                 }
-                System.out.println("Do you want to do any processing. (Y,N)? ");
+                System.out.println("Do you want to do perform any task (Y,N)? ");
                 letter = scanner.next().charAt(0);
 
             } while (letter == 'Y' || letter == 'y');
@@ -81,6 +86,7 @@ public class Main {
             throw new RuntimeException(e);
         }
     }
+
 
     public static void deleteEmployee() throws MalformedURLException {
         System.out.println("Enter employee ID to remove it: ");
@@ -167,7 +173,7 @@ public class Main {
         try {
             stub = getStub();
             System.out.println(stub.updateEmployeeEmail(employeeID, email));
-        } catch ( MalformedURLException | RemoteException e) {
+        } catch (MalformedURLException | RemoteException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -181,7 +187,7 @@ public class Main {
         try {
             stub = getStub();
             System.out.println(stub.updateEmployeeSalary(employeeID, salary));
-        } catch ( MalformedURLException | RemoteException e) {
+        } catch (MalformedURLException | RemoteException e) {
             System.out.println(e.getMessage());
         }
     }
